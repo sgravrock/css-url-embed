@@ -1,0 +1,7 @@
+.something {
+	background: url('./a.png'); /* noembed */
+}
+
+.somethingElse {
+	background: url('./b.png');
+}

@@ -21,6 +21,9 @@
       "url": "https://github.com/mihhail-lapushkin/grunt-css-url-embed/blob/master/LICENSE-MIT"
     }
   ],
+  "scripts": {
+    "test": "jasmine"
+  },
   "engines": {
     "node": ">=0.8.0"
   },
@@ -41,5 +44,9 @@
     "embed",
     "css",
     "url"
-  ]
+  ],
+  "devDependencies": {
+    "jasmine": "^5.6.0",
+    "rimraf": "^5.0.10"
+  }
 }
