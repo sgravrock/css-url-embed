@@ -48,16 +48,6 @@ Will the script terminate if the file referenced by the URL is missing.
 
 When set to `false` a warning will be produced for each missing file or.
 
-#### skipUrlsLargerThan
-
-Type: `String`
-
-Default: No restrictions
-
-Skip URLs that are larger than the specified value.
-
-For example: `'5 MB'`, `'30 KB'`, `'300 B'`.
-
 #### inclusive
 
 Type: `Boolean`
@@ -110,22 +100,6 @@ cssUrlEmbed: {
 ```js
 cssUrlEmbed: {
   encode: {
-    expand: true,
-    cwd: 'target/css',
-    src: [ '**/*.css' ],
-    dest: 'target/css'
-  }
-}
-```
-
-#### Exclude URLs by size
-```js
-cssUrlEmbed: {
-  encode: {
-    options: {
-      skipUrlsLargerThan: '5 MB'
-    },
-  
     expand: true,
     cwd: 'target/css',
     src: [ '**/*.css' ],
