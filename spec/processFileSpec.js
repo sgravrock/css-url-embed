@@ -1,8 +1,8 @@
-const fs = require('node:fs');
-const path = require('node:path');
-const os = require('node:os');
-const { rimrafSync } = require('rimraf');
-const { processFile } = require('../lib/css-url-embed')
+import fs from 'node:fs';
+import path from 'node:path';
+import os from 'node:os';
+import { rimrafSync } from 'rimraf';
+import { processFile } from'../lib/css-url-embed.js';
 
 describe('processFile', function() {
 	beforeEach(function() {
