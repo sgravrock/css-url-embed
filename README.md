@@ -26,7 +26,7 @@ grunt.loadNpmTasks('grunt-css-url-embed');
 ## cssUrlEmbed task
 Task targets, files and options may be specified according to the grunt [Configuring tasks](http://gruntjs.com/configuring-tasks) guide.
 
-Both image and font URLs are supported. Remote (`http`, `https`) URLs are supported as well.
+Both image and font URLs are supported.
 
 ### Options
 
@@ -44,9 +44,9 @@ Type: `Boolean`
 
 Default: `true`
 
-Will the script terminate if the file referenced by the URL is missing or the request to get it failed?
+Will the script terminate if the file referenced by the URL is missing.
 
-When set to `false` a warning will be produced for each missing file or failed request.
+When set to `false` a warning will be produced for each missing file or.
 
 #### skipUrlsLargerThan
 
