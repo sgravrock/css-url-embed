@@ -17,7 +17,12 @@ module.exports = function (grunt) {
 		});
 
 		for (const file of existingFiles) {
-			processFile(grunt, file.src[0], file.dest, options);
+			try {
+				processFile(grunt, file.src[0], file.dest, options);
+			} catch (e) {
+				grunt.log.error(e);
+				grunt.fail.warn('URL embedding failed\n');
+			}
 		}
 	});
 };

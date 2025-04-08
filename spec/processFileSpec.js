@@ -45,22 +45,16 @@ describe('processFile', function() {
 		fs.writeFileSync(infile, fs.readFileSync(orig));
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		// Don't fail the spec immediately
-		const grunt = mockGrunt();
-		grunt.fail.warn.and.callFake(function() {});
-
-		processFile(grunt, infile, outfile, {});
-
-		expect(grunt.fail.warn).toHaveBeenCalledWith('"./a.png" not found on disk\n');
-		expect(grunt.fail.warn).toHaveBeenCalledWith('"./b.png" not found on disk\n');
+		expect(function() {
+			processFile(mockGrunt(), infile, outfile, {});
+		}).toThrowError('"./a.png" not found on disk');
 	});
 })
 
 function mockGrunt() {
 	const grunt = {
 		log: jasmine.createSpyObj('grunt.log',
-			['ok', 'error', 'warn', 'writeln', 'subhead']),
-		fail: jasmine.createSpyObj('grunt.fail', ['warn']),
+			['ok', 'writeln', 'subhead']),
 		option: jasmine.createSpy('grunt.option'),
 		util: {
 			_: jasmine.createSpyObj('grunt.util._', ['uniq']),
@@ -71,13 +65,7 @@ function mockGrunt() {
 		return Array.from(new Set(things));
 	});
 
-	// Some errors are only signalled through these channels.
-	grunt.log.error.and.callFake(fail);
-	grunt.fail.warn.and.callFake(function(msg) {
-		fail(`grunt.fail.warn was called with "${msg}"`);
-	});
-
-	for (const m of ['ok', 'warn', 'writeln']) {
+	for (const m of ['ok', 'writeln']) {
 		grunt.log[m].and.callFake(function (msg) {
 			jasmine.debugLog(msg);
 		})
