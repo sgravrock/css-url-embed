@@ -18,7 +18,7 @@ describe('processFile', function() {
 		const infile = './spec/fixtures/example.css';
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		const result = processFile(infile, outfile, {});
+		const result = processFile(infile, outfile);
 
 		expect(result).toEqual(new Set(['./a.png', './b.png']));
 		const writtenContents = fs.readFileSync(outfile, {encoding: 'utf8'});
@@ -31,7 +31,7 @@ describe('processFile', function() {
 		const infile = './spec/fixtures/noembed.css';
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		const result = processFile(infile, outfile, {});
+		const result = processFile(infile, outfile);
 
 		expect(result).toEqual(new Set(['./b.png']));
 		const writtenContents = fs.readFileSync(outfile, {encoding: 'utf8'});
@@ -48,7 +48,7 @@ describe('processFile', function() {
 		const outfile = path.join(this.tmpDir, 'out.css');
 
 		expect(function() {
-			processFile(infile, outfile, {});
+			processFile(infile, outfile);
 		}).toThrowError('"./a.png" not found on disk');
 	});
 })
