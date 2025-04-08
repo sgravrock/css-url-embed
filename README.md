@@ -38,16 +38,6 @@ Default: `.` or the directory of `Gruntfile.js`
 
 The base directory for URLs. Can be absolute or relative to the directory of your `Gruntfile.js`.
 
-#### failOnMissingUrl
-
-Type: `Boolean`
-
-Default: `true`
-
-Will the script terminate if the file referenced by the URL is missing.
-
-When set to `false` a warning will be produced for each missing file or.
-
 #### inclusive
 
 Type: `Boolean`
