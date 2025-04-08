@@ -17,8 +17,16 @@ module.exports = function (grunt) {
 		});
 
 		for (const file of existingFiles) {
+
 			try {
-				processFile(grunt, file.src[0], file.dest, options);
+				grunt.log.subhead('Processing source file "' + file.src[0] + '"');
+				const urls = processFile(file.src[0], file.dest, options);
+
+				for (const url of urls) {
+					grunt.log.ok('"' + url + '" embedded');
+				}
+
+				grunt.log.writeln('File "' + file.dest + '" created');
 			} catch (e) {
 				grunt.log.error(e);
 				grunt.fail.warn('URL embedding failed\n');

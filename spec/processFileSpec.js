@@ -18,24 +18,26 @@ describe('processFile', function() {
 		const infile = './spec/fixtures/example.css';
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		processFile(mockGrunt(), infile, outfile, {});
+		const result = processFile(infile, outfile, {});
 
-		const result = fs.readFileSync(outfile, {encoding: 'utf8'});
-		const expected = fs.readFileSync('spec/fixtures/example-expected.css',
+		expect(result).toEqual(new Set(['./a.png', './b.png']));
+		const writtenContents = fs.readFileSync(outfile, {encoding: 'utf8'});
+		const expectedContents = fs.readFileSync('spec/fixtures/example-expected.css',
 			{encoding: 'utf8'});
-		expect(result).toEqual(expected);
+		expect(writtenContents).toEqual(expectedContents);
 	});
 
 	it('ignores URLs marked with /* noembed */', function() {
 		const infile = './spec/fixtures/noembed.css';
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		processFile(mockGrunt(), infile, outfile, {});
+		const result = processFile(infile, outfile, {});
 
-		const result = fs.readFileSync(outfile, {encoding: 'utf8'});
-		const expected = fs.readFileSync('spec/fixtures/noembed-expected.css',
+		expect(result).toEqual(new Set(['./b.png']));
+		const writtenContents = fs.readFileSync(outfile, {encoding: 'utf8'});
+		const expectedContents = fs.readFileSync('spec/fixtures/noembed-expected.css',
 			{encoding: 'utf8'});
-		expect(result).toEqual(expected);
+		expect(writtenContents).toEqual(expectedContents);
 	});
 
 	it('fails if a file is not found', function() {
@@ -46,30 +48,7 @@ describe('processFile', function() {
 		const outfile = path.join(this.tmpDir, 'out.css');
 
 		expect(function() {
-			processFile(mockGrunt(), infile, outfile, {});
+			processFile(infile, outfile, {});
 		}).toThrowError('"./a.png" not found on disk');
 	});
 })
-
-function mockGrunt() {
-	const grunt = {
-		log: jasmine.createSpyObj('grunt.log',
-			['ok', 'writeln', 'subhead']),
-		option: jasmine.createSpy('grunt.option'),
-		util: {
-			_: jasmine.createSpyObj('grunt.util._', ['uniq']),
-		},
-	};
-
-	grunt.util._.uniq.and.callFake(function(things) {
-		return Array.from(new Set(things));
-	});
-
-	for (const m of ['ok', 'writeln']) {
-		grunt.log[m].and.callFake(function (msg) {
-			jasmine.debugLog(msg);
-		})
-	}
-
-	return grunt;
-}
