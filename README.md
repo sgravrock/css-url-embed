@@ -38,16 +38,6 @@ Default: `.` or the directory of `Gruntfile.js`
 
 The base directory for URLs. Can be absolute or relative to the directory of your `Gruntfile.js`.
 
-#### inclusive
-
-Type: `Boolean`
-
-Default: `false`
-
-Specifies the mode of embedding.
-* `true` (inclusive) means that you have to manually mark each URL that needs to be embedded using the `/* embed */` comment.
-* `false` (exclusive) means that every URL is embedded, except those that are marked with `/* noembed */` comment.
-
 #### useMimeTypeSniffing
 
 Type: `Boolean`
@@ -114,17 +104,10 @@ cssUrlEmbed: {
 }
 ```
 
-#### Excluding URLs manually (when `inclusive: false`)
+#### Excluding URLs manually
 ```css
 .exclude-me {
   background-image: url('exclude_me.png'); /* noembed */
-}
-```
-
-#### Including URLs manually (when `inclusive: true`)
-```css
-.include-me {
-  background-image: url('include_me.png'); /* embed */
 }
 ```
 
