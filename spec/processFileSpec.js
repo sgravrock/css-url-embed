@@ -67,30 +67,11 @@ function mockGrunt() {
 		log: jasmine.createSpyObj('grunt.log',
 			['ok', 'error', 'warn', 'writeln', 'subhead']),
 		fail: jasmine.createSpyObj('grunt.fail', ['warn']),
-		file: jasmine.createSpyObj('grunt.file',
-			['exists', 'isFile', 'read', 'write']),
 		option: jasmine.createSpy('grunt.option'),
 		util: {
 			_: jasmine.createSpyObj('grunt.util._', ['uniq']),
 		},
 	};
-
-	grunt.file.isFile.and.callFake(function(path) {
-		return fs.statSync(path).isFile();
-	})
-
-	grunt.file.read.and.callFake(function(path) {
-		return fs.readFileSync(path, {encoding: 'utf8'});
-	});
-
-	grunt.file.write.and.callFake(function(path, contents) {
-		return fs.writeFileSync(path, contents, {encoding: 'utf8'});
-	});
-
-	grunt.file.exists.and.callFake(function(path) {
-		jasmine.debugLog('exists looking for ' + path);
-		return fs.existsSync(path);
-	});
 
 	grunt.util._.uniq.and.callFake(function(things) {
 		return Array.from(new Set(things));
