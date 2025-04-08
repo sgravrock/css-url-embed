@@ -38,16 +38,6 @@ Default: `.` or the directory of `Gruntfile.js`
 
 The base directory for URLs. Can be absolute or relative to the directory of your `Gruntfile.js`.
 
-#### useMimeTypeSniffing
-
-Type: `Boolean`
-
-Default: `true`
-
-Should we try to use the `mmmagic` MIME-type sniffing library or should we always determine MIME-type only from the extension of the URL?
-
-When set to `false` the extension checking is always used. When set to `true` it will first try use the `mmmagic` library. However, in case the library failed to install it will fallback to extension checking.
-
 ### Usage Examples
 
 #### Map input and output files directly
@@ -80,22 +70,6 @@ cssUrlEmbed: {
 ```js
 cssUrlEmbed: {
   encode: {
-    expand: true,
-    cwd: 'target/css',
-    src: [ '**/*.css' ],
-    dest: 'target/css'
-  }
-}
-```
-
-#### Disable MIME-type sniffing in favor of extension checking
-```js
-cssUrlEmbed: {
-  encode: {
-    options: {
-      useMimeTypeSniffing: false
-    },
-  
     expand: true,
     cwd: 'target/css',
     src: [ '**/*.css' ],
