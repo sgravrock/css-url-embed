@@ -27,6 +27,19 @@ describe('processFile', function() {
 		expect(writtenContents).toEqual(expectedContents);
 	});
 
+	it('does not modify remote URLs', function() {
+		const infile = './spec/fixtures/remote.css';
+		const outfile = path.join(this.tmpDir, 'out.css');
+
+		const result = processFile(infile, outfile);
+
+		expect(result).toEqual(new Set([]));
+		const writtenContents = fs.readFileSync(outfile, {encoding: 'utf8'});
+		const expectedContents = fs.readFileSync('spec/fixtures/remote.css',
+			{encoding: 'utf8'});
+		expect(writtenContents).toEqual(expectedContents);
+	});
+
 	it('ignores URLs marked with /* noembed */', function() {
 		const infile = './spec/fixtures/noembed.css';
 		const outfile = path.join(this.tmpDir, 'out.css');
