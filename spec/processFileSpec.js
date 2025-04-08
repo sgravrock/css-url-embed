@@ -14,13 +14,11 @@ describe('processFile', function() {
 		rimrafSync(this.tmpDir);
 	})
 
-	it('replaces URLs with their contents', async function() {
+	it('replaces URLs with their contents', function() {
 		const infile = './spec/fixtures/example.css';
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		await new Promise(function(resolve) {
-			processFile(mockGrunt(), infile, outfile, {failOnMissingUrl: true}, resolve);
-		});
+		processFile(mockGrunt(), infile, outfile, {});
 
 		const result = fs.readFileSync(outfile, {encoding: 'utf8'});
 		const expected = fs.readFileSync('spec/fixtures/example-expected.css',
@@ -28,13 +26,11 @@ describe('processFile', function() {
 		expect(result).toEqual(expected);
 	});
 
-	it('ignores URLs marked with /* noembed */', async function() {
+	it('ignores URLs marked with /* noembed */', function() {
 		const infile = './spec/fixtures/noembed.css';
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		await new Promise(function(resolve) {
-			processFile(mockGrunt(), infile, outfile, {failOnMissingUrl: true}, resolve);
-		});
+		processFile(mockGrunt(), infile, outfile, {});
 
 		const result = fs.readFileSync(outfile, {encoding: 'utf8'});
 		const expected = fs.readFileSync('spec/fixtures/noembed-expected.css',
@@ -42,7 +38,7 @@ describe('processFile', function() {
 		expect(result).toEqual(expected);
 	});
 
-	it('fails if a file is not found', async function() {
+	it('fails if a file is not found', function() {
 		const orig = './spec/fixtures/example.css';
 		// Moving the file is enough to break the paths in it
 		const infile = path.join(this.tmpDir, 'example.css');
@@ -53,9 +49,7 @@ describe('processFile', function() {
 		const grunt = mockGrunt();
 		grunt.fail.warn.and.callFake(function() {});
 
-		await new Promise(function(resolve) {
-			processFile(grunt, infile, outfile, {failOnMissingUrl: true}, resolve);
-		});
+		processFile(grunt, infile, outfile, {});
 
 		expect(grunt.fail.warn).toHaveBeenCalledWith('"./a.png" not found on disk\n');
 		expect(grunt.fail.warn).toHaveBeenCalledWith('"./b.png" not found on disk\n');
@@ -77,9 +71,7 @@ function mockGrunt() {
 		return Array.from(new Set(things));
 	});
 
-	// processFile doesn't call its callback when there is an error.
-	// Make these fail immediately so the spec doesn't just time out
-	// with no diagnostic info.
+	// Some errors are only signalled through these channels.
 	grunt.log.error.and.callFake(fail);
 	grunt.fail.warn.and.callFake(function(msg) {
 		fail(`grunt.fail.warn was called with "${msg}"`);

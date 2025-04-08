@@ -2,8 +2,6 @@ module.exports = function (grunt) {
 	var {processFile} = require('../lib/css-url-embed');
 
 	grunt.registerMultiTask('cssUrlEmbed', "Embed URLs as base64 strings inside your stylesheets", function () {
-		var async = this.async();
-
 		var options = this.options({
 			failOnMissingUrl: true,
 			inclusive: false,
@@ -18,18 +16,8 @@ module.exports = function (grunt) {
 			return true;
 		});
 
-		var leftToProcess = existingFiles.length;
-
-		if (leftToProcess === 0) {
-			async();
+		for (const file of existingFiles) {
+			processFile(grunt, file.src[0], file.dest, options);
 		}
-
-		existingFiles.forEach(function (file) {
-			processFile(grunt, file.src[0], file.dest, options, function () {
-				if (--leftToProcess === 0) {
-					async();
-				}
-			});
-		});
 	});
 };
