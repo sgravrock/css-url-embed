@@ -32,7 +32,7 @@
     "node": ">=0.8.0"
   },
   "dependencies": {
-    "mime": "~2.3.1"
+    "mime": "^4.0.7"
   },
   "keywords": [
     "image",
