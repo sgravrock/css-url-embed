@@ -21,6 +21,9 @@
       "url": "https://github.com/mihhail-lapushkin/grunt-css-url-embed/blob/master/LICENSE-MIT"
     }
   ],
+  "exports": {
+    ".": "./lib/css-url-embed.js"
+  },
   "scripts": {
     "test": "jasmine"
   },
@@ -31,7 +34,6 @@
     "mime": "~2.3.1"
   },
   "keywords": [
-    "gruntplugin",
     "image",
     "data-uri",
     "base64",
