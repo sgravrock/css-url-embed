@@ -1,161 +1,50 @@
-# grunt-css-url-embed
+# css-url-embed
 
-![](https://badge.fury.io/js/grunt-css-url-embed.svg)&nbsp;&nbsp;
-![](https://david-dm.org/mihhail-lapushkin/grunt-css-url-embed.png)
+Embed URLs as base64 data inside your CSS stylesheets
 
-> Embed URLs as base64 data URIs inside your stylesheets
+css-url-embed replaces URls that refer to local files with the base64 encoded
+contents of the corresponding files. This allows you to generate a CSS file
+that can be used by itself, without any separate font or image assets.
 
-There are lots of base64 embedding Grunt plugins out there, but pretty much all of them are already outdated and/or abandoned. This plugin aims to change that.
+## Usage
 
-
-## Getting Started
-This plugin requires Grunt `~0.4.0` and Python `2.7`, since it depends on [node-gyp](https://github.com/TooTallNate/node-gyp/#installation).
-
-If you haven't used [Grunt](http://gruntjs.com/) before, be sure to check out the [Getting Started](http://gruntjs.com/getting-started) guide, as it explains how to create a [Gruntfile](http://gruntjs.com/sample-gruntfile) as well as install and use Grunt plugins. Once you're familiar with that process, you may install this plugin with this command:
-
-```shell
-npm install grunt-css-url-embed --save-dev
+```javascript
+import cssUrlEmbed from 'css-url-embed';
+cssUrlEmbed.processFile(srcPath, destPath);
 ```
 
-Once the plugin has been installed, it may be enabled inside your Gruntfile with this line of JavaScript:
+### Excluding URLs manually
 
-```js
-grunt.loadNpmTasks('grunt-css-url-embed');
-```
+If you have local file URLs that shouldn't be processed by css-url-embed, you
+can annotate them with a noembed directive:
 
-## cssUrlEmbed task
-Task targets, files and options may be specified according to the grunt [Configuring tasks](http://gruntjs.com/configuring-tasks) guide.
 
-Both image and font URLs are supported.
-
-### Options
-
-#### baseDir
-
-Type: `String`
-
-Default: `.` or the directory of `Gruntfile.js`
-
-The base directory for URLs. Can be absolute or relative to the directory of your `Gruntfile.js`.
-
-### Usage Examples
-
-#### Map input and output files directly
-
-```js
-cssUrlEmbed: {
-  encodeDirectly: {
-    files: {
-      'path/to/output.css': ['path/to/input.css']
-    }
-  }
-}
-```
-
-#### Specify base directory if needed
-```js
-cssUrlEmbed: {
-  encodeWithBaseDir: {
-    options: {
-      baseDir: './app'
-    },
-    files: {
-      'path/to/output.css': ['path/to/input.css']
-    }
-  }
-}
-```
-
-#### Process all CSS files in target directory
-```js
-cssUrlEmbed: {
-  encode: {
-    expand: true,
-    cwd: 'target/css',
-    src: [ '**/*.css' ],
-    dest: 'target/css'
-  }
-}
-```
-
-#### Excluding URLs manually
 ```css
 .exclude-me {
-  background-image: url('exclude_me.png'); /* noembed */
+   background-image: url('exclude_me.png'); /* noembed */
+}
+
+.exclude-me-more-complex {
+   background-image: url('exclude_me.png') /* noembed */ 1x, url('include_me.png') 2x;
 }
 ```
 
-#### When URLs are in the middle of CSS property
-```css
-.include-me1 {
-  background: transparent url('include_me.png') /* embed */ center center no-repeat;
-}
+## Stability
 
-.include-me2 {
-  background-image: -webkit-image-set(url('include_me1.png') /* embed */ 1x, url('include_me2.png') /* embed */ 2x);
-}
-```
+This is alpha software. Future releases are likely to include breaking changes.
 
-## Release History
- * **1.11.1** / 2018-08-20
-   * Fixed [#33](https://github.com/mihhail-lapushkin/grunt-css-url-embed/issues/33).
- * **1.11.0** / 2018-08-18
-   * Merged [#32](https://github.com/mihhail-lapushkin/grunt-css-url-embed/pull/32).
- * **1.10.0** / 2017-01-19
-   * Fixed [#31](https://github.com/mihhail-lapushkin/grunt-css-url-embed/pull/31).
- * **1.9.0** / 2017-01-18
-   * Fixed [#30](https://github.com/mihhail-lapushkin/grunt-css-url-embed/pull/30).
- * **1.8.0** / 2016-12-01
-   * Merged [#29](https://github.com/mihhail-lapushkin/grunt-css-url-embed/pull/29).
- * **1.7.0** / 2016-09-27
-   * Fixed [#28](https://github.com/mihhail-lapushkin/grunt-css-url-embed/issues/28).
-   * Updated dependencies.
- * **1.6.1** / 2015-07-23
-   * Fixed [#26](https://github.com/mihhail-lapushkin/grunt-css-url-embed/issues/26).
- * **1.6.0** / 2015-05-30
-   * Implemented [#24](https://github.com/mihhail-lapushkin/grunt-css-url-embed/issues/24).
- * **1.5.2** / 2015-04-22
-   * Fixed [#23](https://github.com/mihhail-lapushkin/grunt-css-url-embed/issues/23).
- * **1.5.1** / 2015-02-17
-   * Fixed an issue that caused a file without embeddable URLs not to be written to destination folder.
-   * Updated docs to clarify [#21](https://github.com/mihhail-lapushkin/grunt-css-url-embed/issues/21).
- * **1.5.0** / 2015-02-12
-   * Added `inclusive` option. See docs.
- * **1.4.0** / 2014-12-27
-   * Merged [#17](https://github.com/mihhail-lapushkin/grunt-css-url-embed/pull/19).
-   * Updated dependencies.
- * **1.3.1** / 2014-11-22
-   * Merged [#17](https://github.com/mihhail-lapushkin/grunt-css-url-embed/pull/17).
- * **1.3.0** / 2014-11-21
-   * Implemented [#16](https://github.com/mihhail-lapushkin/grunt-css-url-embed/issues/16).
- * **1.2.0** / 2014-11-14
-   * Merged [#14](https://github.com/mihhail-lapushkin/grunt-css-url-embed/pull/14).
-   * Updated dependencies.
- * **1.1.0** / 2014-10-01
-   * Implemented [#12](https://github.com/mihhail-lapushkin/grunt-css-url-embed/issues/12).
-   * Switched to MIME-type sniffing instead of just checking the extension of the file.
- * **1.0.4** / 2014-09-26
-   * Implemented [#11](https://github.com/mihhail-lapushkin/grunt-css-url-embed/issues/11).
-   * Merged [#10](https://github.com/mihhail-lapushkin/grunt-css-url-embed/pull/10).
- * **1.0.3** / 2014-09-05
-   * Fixed [#8](https://github.com/mihhail-lapushkin/grunt-css-url-embed/issues/8).
- * **1.0.2** / 2014-09-03
-   * Fixed [#7](https://github.com/mihhail-lapushkin/grunt-css-url-embed/issues/7).
-   * Project cleanup.
- * **1.0.1** / 2014-08-23
-   * Fixed [#6](https://github.com/mihhail-lapushkin/grunt-css-url-embed/issues/6).
- * **1.0.0** / 2014-07-23
-   * The build will now fail if the file referenced by the URL is missing. Set `failOnMissingUrl` to `false` to disable this.
-   * Replaced excluding by file extension with excluding through a comment in the CSS file.
- * **0.1.4** / 2014-05-14
-   * Added an option to exclude certain file extensions.
- * **0.1.3** / 2014-01-29
-   * Fixed handling of URL's with parameters.
-   * Improved logging.
- * **0.1.2** / 2013-10-02
-   * Changed logging a bit.
- * **0.1.1** / 2013-09-17
-   * Removed dependency on [datauri](https://github.com/heldr/datauri).
-   * Now pretty much all MIME-types are supported.
- * **0.1.0** / 2013-09-09
-   * First version.
+## Limitations
+
+* Remote URLs (e.g. http://...) are not supported.
+* MIME type detection is based on file extensions. Other mechanisms like content
+  sniffing are not currently supported.
+* css-url-embed is distributed only as an ES module. To use it from a CommonJS
+  module, you'll have to use asynchronous `import()` rather than `require()`.
+
+## License
+
+MIT. See LICENSE.txt for details.
+
+## Acknowledgements
+
+css-url-embed is based on Mihhail Lapushkin's [grunt-css-url-embed](https://github.com/mihhail-lapushkin/grunt-css-url-embed).

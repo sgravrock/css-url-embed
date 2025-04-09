@@ -1,35 +1,22 @@
 {
-  "name": "grunt-css-url-embed",
-  "description": "Embed URL's as base64 strings inside your stylesheets",
-  "version": "1.11.1",
-  "homepage": "https://github.com/mihhail-lapushkin/grunt-css-url-embed",
-  "author": {
-    "name": "Mihhail Lapushkin",
-    "email": "mihhail.lapushkin@gmail.com",
-    "url": "http://www.linkedin.com/in/mihhail"
-  },
+  "name": "css-url-embed",
+  "description": "Embed URLs as base64 strings inside your stylesheets",
+  "version": "0.1.0",
+  "homepage": "https://github.com/sgravrock/css-url-embed",
   "repository": {
     "type": "git",
-    "url": "git://github.com/mihhail-lapushkin/grunt-css-url-embed.git"
+    "url": "https://github.com/sgravrock/css-url-embed"
   },
   "bugs": {
-    "url": "https://github.com/mihhail-lapushkin/grunt-css-url-embed/issues"
+    "url": "https://github.com/sgravrock/css-url-embed/issues"
   },
-  "licenses": [
-    {
-      "type": "MIT",
-      "url": "https://github.com/mihhail-lapushkin/grunt-css-url-embed/blob/master/LICENSE-MIT"
-    }
-  ],
+  "license": "MIT",
   "type": "module",
   "exports": {
     ".": "./lib/css-url-embed.js"
   },
   "scripts": {
     "test": "jasmine"
-  },
-  "engines": {
-    "node": ">=0.8.0"
   },
   "dependencies": {
     "mime": "^4.0.7"
