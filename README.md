@@ -10,7 +10,14 @@ that can be used by itself, without any separate font or image assets.
 
 ```javascript
 import cssUrlEmbed from 'css-url-embed';
-await cssUrlEmbed.processFile(srcPath, destPath);
+
+function getMimeType(filePath) {
+   // Add your MIME type resolution logic here
+   // You could use the mime or mmmagic packaes or just return hardcoded types:
+   return 'image/png';
+}
+
+cssUrlEmbed.processFile(srcPath, destPath, getMimeType);
 ```
 
 ### Excluding URLs manually
@@ -35,9 +42,7 @@ This is alpha software. Future releases are likely to include breaking changes.
 
 ## Limitations
 
-* Remote URLs (e.g. http://...) are not supported.
-* MIME type detection is based on file extensions. Other mechanisms like content
-  sniffing are not currently supported.
+Remote URLs (e.g. http://...) are not supported.
 
 ## License
 

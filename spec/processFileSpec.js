@@ -14,24 +14,30 @@ describe('processFile', function() {
 		rimrafSync(this.tmpDir);
 	})
 
-	it('replaces URLs with their contents', async function() {
+	it('replaces URLs with their contents', function() {
 		const infile = './spec/fixtures/example.css';
 		const outfile = path.join(this.tmpDir, 'out.css');
+		const getMimeType = jasmine.createSpy('getMimeType')
+			.and.returnValue('image/png');
 
-		const result = await processFile(infile, outfile);
+		const result = processFile(infile, outfile, getMimeType);
 
 		expect(result).toEqual(new Set(['./a.png', './b.png']));
 		const writtenContents = fs.readFileSync(outfile, {encoding: 'utf8'});
 		const expectedContents = fs.readFileSync('spec/fixtures/example-expected.css',
 			{encoding: 'utf8'});
 		expect(writtenContents).toEqual(expectedContents);
+		expect(getMimeType).toHaveBeenCalledWith(
+			path.resolve('spec/fixtures/a.png'));
+		expect(getMimeType).toHaveBeenCalledWith(
+			path.resolve('spec/fixtures/b.png'));
 	});
 
-	it('does not modify remote URLs', async function() {
+	it('does not modify remote URLs', function() {
 		const infile = './spec/fixtures/remote.css';
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		const result = await processFile(infile, outfile);
+		const result = processFile(infile, outfile, () => 'image/png');
 
 		expect(result).toEqual(new Set([]));
 		const writtenContents = fs.readFileSync(outfile, {encoding: 'utf8'});
@@ -40,11 +46,11 @@ describe('processFile', function() {
 		expect(writtenContents).toEqual(expectedContents);
 	});
 
-	it('ignores URLs marked with /* noembed */', async function() {
+	it('ignores URLs marked with /* noembed */', function() {
 		const infile = './spec/fixtures/noembed.css';
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		const result = await processFile(infile, outfile);
+		const result = processFile(infile, outfile, () => 'image/png');
 
 		expect(result).toEqual(new Set(['./b.png']));
 		const writtenContents = fs.readFileSync(outfile, {encoding: 'utf8'});
@@ -53,14 +59,14 @@ describe('processFile', function() {
 		expect(writtenContents).toEqual(expectedContents);
 	});
 
-	it('fails if a file is not found', async function() {
+	it('fails if a file is not found', function() {
 		const orig = './spec/fixtures/example.css';
 		// Moving the file is enough to break the paths in it
 		const infile = path.join(this.tmpDir, 'example.css');
 		fs.writeFileSync(infile, fs.readFileSync(orig));
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		await expectAsync(processFile(infile, outfile))
-			.toBeRejectedWithError('"./a.png" not found on disk');
+		expect(function() {processFile(infile, outfile, () => 'image/png')})
+			.toThrowError('"./a.png" not found on disk');
 	});
 })

@@ -17,9 +17,6 @@
   "scripts": {
     "test": "jasmine"
   },
-  "dependencies": {
-    "mime": "^4.0.7"
-  },
   "keywords": [
     "image",
     "data-uri",
