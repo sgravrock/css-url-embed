@@ -14,6 +14,12 @@
   "exports": {
     ".": "./lib/css-url-embed.js"
   },
+  "files": [
+    "package.json",
+    "LICENSE.txt",
+    "README.md",
+    "lib/css-url-embed.js"
+  ],
   "scripts": {
     "test": "jasmine"
   },
