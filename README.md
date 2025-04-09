@@ -42,7 +42,8 @@ This is alpha software. Future releases are likely to include breaking changes.
 
 ## Limitations
 
-Remote URLs (e.g. http://...) are not supported.
+Remote URLs (e.g. http://...) are not supported. Any remote URLs in the source
+CSS will be passed through unmodified.
 
 ## License
 
@@ -50,4 +51,7 @@ MIT. See LICENSE.txt for details.
 
 ## Acknowledgements
 
-css-url-embed is based on Mihhail Lapushkin's [grunt-css-url-embed](https://github.com/mihhail-lapushkin/grunt-css-url-embed).
+css-url-embed is based on Mihhail Lapushkin's [grunt-css-url-embed](https://github.com/mihhail-lapushkin/grunt-css-url-embed),
+which was used to build jasmine-core's CSS for six years. I decoupled it from
+Grunt, removed dependencies, and removed a number of features that I wasn't
+using.
