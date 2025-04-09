@@ -10,7 +10,7 @@ that can be used by itself, without any separate font or image assets.
 
 ```javascript
 import cssUrlEmbed from 'css-url-embed';
-cssUrlEmbed.processFile(srcPath, destPath);
+await cssUrlEmbed.processFile(srcPath, destPath);
 ```
 
 ### Excluding URLs manually
@@ -38,8 +38,6 @@ This is alpha software. Future releases are likely to include breaking changes.
 * Remote URLs (e.g. http://...) are not supported.
 * MIME type detection is based on file extensions. Other mechanisms like content
   sniffing are not currently supported.
-* css-url-embed is distributed only as an ES module. To use it from a CommonJS
-  module, you'll have to use asynchronous `import()` rather than `require()`.
 
 ## License
 

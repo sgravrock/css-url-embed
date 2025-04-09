@@ -11,7 +11,6 @@
     "url": "https://github.com/sgravrock/css-url-embed/issues"
   },
   "license": "MIT",
-  "type": "module",
   "exports": {
     ".": "./lib/css-url-embed.js"
   },

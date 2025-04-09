@@ -1,8 +1,8 @@
-import fs from 'node:fs';
-import path from 'node:path';
-import os from 'node:os';
-import { rimrafSync } from 'rimraf';
-import { processFile } from'../lib/css-url-embed.js';
+const fs = require('node:fs')
+const path = require('node:path');
+const os = require('node:os');
+const { rimrafSync } = require('rimraf');
+const { processFile } = require('../lib/css-url-embed.js');
 
 describe('processFile', function() {
 	beforeEach(function() {
@@ -14,11 +14,11 @@ describe('processFile', function() {
 		rimrafSync(this.tmpDir);
 	})
 
-	it('replaces URLs with their contents', function() {
+	it('replaces URLs with their contents', async function() {
 		const infile = './spec/fixtures/example.css';
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		const result = processFile(infile, outfile);
+		const result = await processFile(infile, outfile);
 
 		expect(result).toEqual(new Set(['./a.png', './b.png']));
 		const writtenContents = fs.readFileSync(outfile, {encoding: 'utf8'});
@@ -27,11 +27,11 @@ describe('processFile', function() {
 		expect(writtenContents).toEqual(expectedContents);
 	});
 
-	it('does not modify remote URLs', function() {
+	it('does not modify remote URLs', async function() {
 		const infile = './spec/fixtures/remote.css';
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		const result = processFile(infile, outfile);
+		const result = await processFile(infile, outfile);
 
 		expect(result).toEqual(new Set([]));
 		const writtenContents = fs.readFileSync(outfile, {encoding: 'utf8'});
@@ -40,11 +40,11 @@ describe('processFile', function() {
 		expect(writtenContents).toEqual(expectedContents);
 	});
 
-	it('ignores URLs marked with /* noembed */', function() {
+	it('ignores URLs marked with /* noembed */', async function() {
 		const infile = './spec/fixtures/noembed.css';
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		const result = processFile(infile, outfile);
+		const result = await processFile(infile, outfile);
 
 		expect(result).toEqual(new Set(['./b.png']));
 		const writtenContents = fs.readFileSync(outfile, {encoding: 'utf8'});
@@ -53,15 +53,14 @@ describe('processFile', function() {
 		expect(writtenContents).toEqual(expectedContents);
 	});
 
-	it('fails if a file is not found', function() {
+	it('fails if a file is not found', async function() {
 		const orig = './spec/fixtures/example.css';
 		// Moving the file is enough to break the paths in it
 		const infile = path.join(this.tmpDir, 'example.css');
 		fs.writeFileSync(infile, fs.readFileSync(orig));
 		const outfile = path.join(this.tmpDir, 'out.css');
 
-		expect(function() {
-			processFile(infile, outfile);
-		}).toThrowError('"./a.png" not found on disk');
+		await expectAsync(processFile(infile, outfile))
+			.toBeRejectedWithError('"./a.png" not found on disk');
 	});
 })
